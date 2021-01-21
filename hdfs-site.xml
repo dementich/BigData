@@ -46,4 +46,8 @@
 		<name>dfs.permissions.enabled</name>
 		<value>false</value>
 	 </property>
+	 <property>
+		<name>dfs.block.size</name>
+		<value>1048576</value>
+	 </property>
 </configuration>

@@ -1,7 +1,7 @@
 FROM ubuntu:18.04
 
 #install basic components
-RUN	apt update && \
+RUN apt update -yqq && \
 	apt install -yqq software-properties-common && \
 	apt install -yqq net-tools && \
 	apt install -yqq wget && \
@@ -32,9 +32,9 @@ RUN	chmod 0600 ~/.ssh/authorized_keys
 RUN	echo StrictHostKeyChecking no >> ~/.ssh/config
 
 # Install hadoop
-COPY hadoop-2.10.1.tar.gz /root/hadoop-2.10.1.tar.gz
+#COPY hadoop-2.10.1.tar.gz /root/hadoop-2.10.1.tar.gz
 RUN cd $HOME && \
-    #wget http://apache.mirror.cdnetworks.com/hadoop/common/hadoop-2.10.1/hadoop-2.10.1.tar.gz && \
+    wget http://apache.mirror.cdnetworks.com/hadoop/common/hadoop-2.10.1/hadoop-2.10.1.tar.gz && \
     tar -xf hadoop-2.10.1.tar.gz && \
     ln -s hadoop-2.10.1 hadoop && \
     rm hadoop-2.10.1.tar.gz
@@ -56,9 +56,9 @@ ENV HIVE_CONF_DIR $HIVE_HOME/conf
 ENV PATH $HIVE_HOME/bin:$PATH
 ENV CLASSPATH $HADOOP_HOME/lib/*:.
 ENV CLASSPATH $CLASSPATH:$HIVE_HOME/lib/*:.
-COPY apache-hive-2.3.8-bin.tar.gz /root/apache-hive-2.3.8-bin.tar.gz
+#COPY apache-hive-2.3.8-bin.tar.gz /root/apache-hive-2.3.8-bin.tar.gz
 RUN cd $HOME && \
-    #wget http://apache.mirror.cdnetworks.com/hive/hive-2.3.8/apache-hive-2.3.8-bin.tar.gz && \
+    wget http://apache.mirror.cdnetworks.com/hive/hive-2.3.8/apache-hive-2.3.8-bin.tar.gz && \
     tar xzf apache-hive-2.3.8-bin.tar.gz && \
     ln -s apache-hive-2.3.8-bin hive && \
     rm apache-hive-2.3.8-bin.tar.gz
