@@ -32,9 +32,9 @@ RUN	chmod 0600 ~/.ssh/authorized_keys
 RUN	echo StrictHostKeyChecking no >> ~/.ssh/config
 
 # Install hadoop
-#COPY hadoop-2.10.1.tar.gz /root/hadoop-2.10.1.tar.gz
+COPY hadoop-2.10.1.tar.gz /root/hadoop-2.10.1.tar.gz
 RUN cd $HOME && \
-    wget http://apache.mirror.cdnetworks.com/hadoop/common/hadoop-2.10.1/hadoop-2.10.1.tar.gz && \
+    #wget http://apache.mirror.cdnetworks.com/hadoop/common/hadoop-2.10.1/hadoop-2.10.1.tar.gz && \
     tar -xf hadoop-2.10.1.tar.gz && \
     ln -s hadoop-2.10.1 hadoop && \
     rm hadoop-2.10.1.tar.gz
@@ -50,10 +50,27 @@ COPY yarn-site.xml /root/hadoop/etc/hadoop/yarn-site.xml
 COPY start.sh /root/start.sh
 RUN $HADOOP_HOME/bin/hdfs namenode -format
 
+# Install hive
+ENV HIVE_HOME /root/hive
+ENV HIVE_CONF_DIR $HIVE_HOME/conf
+ENV PATH $HIVE_HOME/bin:$PATH
+ENV CLASSPATH $HADOOP_HOME/lib/*:.
+ENV CLASSPATH $CLASSPATH:$HIVE_HOME/lib/*:.
+COPY apache-hive-2.3.8-bin.tar.gz /root/apache-hive-2.3.8-bin.tar.gz
+RUN cd $HOME && \
+    #wget http://apache.mirror.cdnetworks.com/hive/hive-2.3.8/apache-hive-2.3.8-bin.tar.gz && \
+    tar xzf apache-hive-2.3.8-bin.tar.gz && \
+    ln -s apache-hive-2.3.8-bin hive && \
+    rm apache-hive-2.3.8-bin.tar.gz
+COPY hive-env.sh /root/hive/conf/hive-env.sh
+COPY hive-site.xml /root/hive/conf/hive-site.xml
+COPY hive_init.sh /root/
+RUN sh /root/hive_init.sh
+
 CMD ["/bin/bash", "/root/start.sh"]
 
 #How to run:
-#docker run --name big_data_1 -p 8888:8888 -p 8088:8088 -p 9010:9010 -p 50070:50070 -p 50090:50090 -v /e/Worker:/home/dementich/Worker -it big_data bash
+#docker run --name big_data_1 -p 10000:10000 -p 10002:10002 -p 8888:8888 -p 8088:8088 -p 9010:9010 -p 50070:50070 -p 50090:50090 -v /e/Worker:/home/dementich/Worker -it big_data
 #docker run --name big_data_1 -v /e/Worker:/home/dementich/Worker -it big_data bash
 
-EXPOSE 50020 50090 50070 50010 50075 8031 8032 8033 8040 8042 49707 22 8088 8030 9010 8888 
+EXPOSE 50020 50090 50070 50010 50075 8031 8032 8033 8040 8042 49707 22 8088 8030 9010 8888 10000 10002 
