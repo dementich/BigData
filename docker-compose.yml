@@ -1,0 +1,25 @@
+version: "3.0"
+services:
+    big_data:
+        image:  eulenspiegel/big_data:latest
+        container_name: big_data
+        ports:
+            - 22:22            
+            - 8030:8030
+            - 8031:8031
+            - 8032:8032
+            - 8033:8033
+            - 8040:8040
+            - 8042:8042
+            - 8888:8888
+            - 9010:9010            
+            - 10000:10000
+            - 10002:10002
+            - 49707:49707
+            - 50010:50010
+            - 50020:50020
+            - 50070:50070            
+            - 50075:50075                        
+            - 50090:50090            
+        volumes:
+            - /e/Worker:/home/dementich/Worker

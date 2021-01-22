@@ -10,6 +10,6 @@ sleep 30
 hive --service hiveserver2 > /dev/null 2>&1 &
 sleep 30
 
-jupyter notebook --no-browser --ip=0.0.0.0 --port 8888 --notebook-dir=/home/dementich --allow-root > /dev/null 2>&1 &
+jupyter notebook --no-browser --ip=0.0.0.0 --port 8888 --notebook-dir=/home/dementich --allow-root > /dev/null
 
-/bin/bash
+#/bin/bash
